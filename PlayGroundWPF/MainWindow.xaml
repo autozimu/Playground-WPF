@@ -36,6 +36,9 @@
 					Value="0" />
 		</Style>
 		
+		<Thickness x:Key="Tab_Border_Thickness">4</Thickness>
+		<Thickness x:Key="Tab_Border_Thickness_Selected">4, 4, 4, 0</Thickness>
+		
 		<Style TargetType="TabControl">
 			<Setter Property="Template">
 				<Setter.Value>
@@ -46,6 +49,7 @@
 										Orientation="Horizontal"
 										VerticalAlignment="Center">
 								<TabPanel IsItemsHost="True" />
+								<!-- New tab button -->
 								<Button VerticalAlignment="Center"
 										Click="TabNewButton_Click">
 									<fa:ImageAwesome Icon="Plus" 
@@ -79,7 +83,10 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="TabItem">
-						<StackPanel Orientation="Horizontal">
+						<Border Name="tabItemHeaderBorder"
+							BorderThickness="{StaticResource Tab_Border_Thickness}"
+								BorderBrush="DarkGray">
+							<StackPanel Orientation="Horizontal">
 							<Ellipse Fill="DarkGray"
 									 Width="10"
 									 Height="10"
@@ -123,14 +130,19 @@
 								</ContextMenu>
 							</StackPanel.ContextMenu>
 						</StackPanel>
+						</Border>
 
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsSelected"
+									 Value="True">
+								<Setter TargetName="tabItemHeaderBorder"
+										Property="BorderThickness"
+										Value="{StaticResource ResourceKey=Tab_Border_Thickness_Selected}" />
+							</Trigger>
+							<Trigger Property="IsSelected"
 									 Value="False">
-								<Setter Property="Background"
-										Value="DarkGray" />
-								<Setter Property="Foreground"
-										Value="Gray" />
+								<Setter Property="BorderBrush"
+										Value="LightGray" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
