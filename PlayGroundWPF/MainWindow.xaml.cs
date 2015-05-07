@@ -99,13 +99,29 @@ namespace PlayGroundWPF
 			((Button)sender).ContextMenu.IsOpen = true;
 		}
 
+		Point _dragStartingPoint;
+		private void TabItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			_dragStartingPoint = e.GetPosition(null);
+		}
+
+		bool _isDragging = false;
 		private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
 		{
-			TabItem tab = (TabItem)e.Source;
+			TabItem tab = (TabItem)sender;
 
-			if (Mouse.PrimaryDevice.LeftButton == MouseButtonState.Pressed)
+			if (e.LeftButton == MouseButtonState.Pressed && !_isDragging)
 			{
-				DragDrop.DoDragDrop(tab, tab, DragDropEffects.All);
+				Point position = e.GetPosition(null);
+				if (Math.Abs(position.X - _dragStartingPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
+					Math.Abs(position.Y - _dragStartingPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+				{
+					_isDragging = true;
+
+					DragDrop.DoDragDrop(tab, tab, DragDropEffects.All);
+
+					_isDragging = false;
+				}
 			}
 		}
 
@@ -115,8 +131,10 @@ namespace PlayGroundWPF
 			// Otherwise the tab control will use selected index to select content.
 			TabItem selectedTab = (TabItem)tabControl.SelectedItem;
 
+			TabItem targetTab = sender as TabItem;
+			if (targetTab == null) return;
+			if (e.Data.GetDataPresent(typeof(TabItem)) == false) return;
 			TabItem sourceTab = (TabItem)e.Data.GetData(typeof(TabItem));
-			TabItem targetTab = (TabItem)e.Source;
 
 			if (targetTab != sourceTab)
 			{

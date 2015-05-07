@@ -4,7 +4,7 @@
 		xmlns:local="clr-namespace:PlayGroundWPF"
 		xmlns:fa="http://schemas.fontawesome.io/icons/"
 		Title="MainWindow"
-		Height="300"
+		Height="800"
 		Width="500"
 		WindowStartupLocation="CenterScreen">
 
@@ -45,7 +45,7 @@
 							<StackPanel DockPanel.Dock="Top"
 										Orientation="Horizontal"
 										VerticalAlignment="Center">
-								<TabPanel IsItemsHost="True"/>
+								<TabPanel IsItemsHost="True" />
 								<Button VerticalAlignment="Center"
 										Click="TabNewButton_Click">
 									<fa:ImageAwesome Icon="Plus" 
@@ -67,6 +67,7 @@
 								</Button>
 							</StackPanel>
 
+							<!-- Content -->
 							<ContentPresenter ContentSource="SelectedContent" />
 						</DockPanel>
 					</ControlTemplate>
@@ -84,7 +85,7 @@
 									 Height="10"
 									 VerticalAlignment="Center" />
 							<TextBlock FontWeight="Bold"
-									   FontSize="12">
+									   FontSize="15">
 								<ContentPresenter ContentSource="Header"
 												  VerticalAlignment="Center" />
 							</TextBlock>
@@ -139,6 +140,8 @@
 			<!-- FIXME. shall only set drag/drop on tabpanel. -->
 			<Setter Property="AllowDrop"
 					Value="True" />
+			<EventSetter Event="PreviewMouseLeftButtonDown"
+						 Handler="TabItem_PreviewMouseLeftButtonDown" />
 			<EventSetter Event="PreviewMouseMove"
 						 Handler="TabItem_PreviewMouseMove" />
 			<EventSetter Event="Drop"
