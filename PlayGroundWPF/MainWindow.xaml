@@ -135,15 +135,33 @@
 					</ControlTemplate>
 				</Setter.Value>
 			</Setter>
+			
+			<!-- FIXME. shall only set drag/drop on tabpanel. -->
+			<Setter Property="AllowDrop"
+					Value="True" />
+			<EventSetter Event="PreviewMouseMove"
+						 Handler="TabItem_PreviewMouseMove" />
+			<EventSetter Event="Drop"
+						 Handler="TabItem_Drop" />
 		</Style>
 	</Window.Resources>
 
 
 	<TabControl Name="tabControl">
-		<TabItem Header="Tab Name 1"
-				 Content="Tab Content 1">
+		<TabItem Name="tab1"
+				 Header="TextBox">
+			<StackPanel VerticalAlignment="Center"
+						HorizontalAlignment="Center">
+				<TextBlock Text="Insert here:" />
+				<TextBox  Width="100"/>
+			</StackPanel>
 		</TabItem>
-		<TabItem Header="Tab Name 2"
-				 Content="Tab Content 2" />
+		<TabItem Name="tab2"
+				 Header="Icon">
+			<StackPanel VerticalAlignment="Center">
+				<fa:ImageAwesome Icon="Heartbeat"
+								 Width="70" />
+			</StackPanel>
+		</TabItem>
 	</TabControl>
 </Window>

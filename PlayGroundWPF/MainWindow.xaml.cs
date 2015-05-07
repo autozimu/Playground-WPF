@@ -16,7 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Globalization;
 using System.Collections.ObjectModel;
-using GalaSoft.MvvmLight.CommandWpf;
+using System.IO;
+using System.Windows.Markup;
 
 namespace PlayGroundWPF
 {
@@ -30,24 +31,6 @@ namespace PlayGroundWPF
             InitializeComponent();
 			this.DataContext = this;
         }
-
-		TabItem NewTab1()
-		{
-			return new TabItem()
-			{
-				Header = "Tab Name 1",
-				Content = "Tab Content 1"
-			};
-		}
-
-		TabItem NewTab2()
-		{
-			return new TabItem()
-			{
-				Header = "Tab Name 2",
-				Content = "Tab Content 2"
-			};
-		}
 
 		private void TabClose(object sender, ExecutedRoutedEventArgs e)
 		{
@@ -79,34 +62,71 @@ namespace PlayGroundWPF
 			Random r = new Random();
 			if (r.Next() % 2 == 0)
 			{
-				tab = NewTab1();
+				TabOpenTab1(sender, null);
 			}
 			else
 			{
-				tab = NewTab2();
+				TabOpenTab2(sender, null);
+			}
+		}
+
+		private void TabClone(TabItem original)
+		{
+			object clone;
+			using (var stream = new MemoryStream())
+			{
+				XamlWriter.Save(original, stream);
+				stream.Seek(0, SeekOrigin.Begin);
+				clone = XamlReader.Load(stream);
 			}
 
-			tabControl.Items.Add(tab);
-			tabControl.SelectedItem = tab;
+			tabControl.Items.Add(clone);
+			tabControl.SelectedItem = clone;
 		}
 
 		private void TabOpenTab1(object sender, ExecutedRoutedEventArgs e)
 		{
-			TabItem tab = NewTab1();
-			tabControl.Items.Add(tab);
-			tabControl.SelectedItem = tab;
+			TabClone(tab1);
 		}
 
 		private void TabOpenTab2(object sender, ExecutedRoutedEventArgs e)
 		{
-			TabItem tab = NewTab2();
-			tabControl.Items.Add(tab);
-			tabControl.SelectedItem = tab;
+			TabClone(tab2);
 		}
 
 		private void TabNewButton_Click(object sender, RoutedEventArgs e)
 		{
 			((Button)sender).ContextMenu.IsOpen = true;
+		}
+
+		private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
+		{
+			TabItem tab = (TabItem)e.Source;
+
+			if (Mouse.PrimaryDevice.LeftButton == MouseButtonState.Pressed)
+			{
+				DragDrop.DoDragDrop(tab, tab, DragDropEffects.All);
+			}
+		}
+
+		private void TabItem_Drop(object sender, DragEventArgs e)
+		{
+			// Keep selected tab to restore later.
+			// Otherwise the tab control will use selected index to select content.
+			TabItem selectedTab = (TabItem)tabControl.SelectedItem;
+
+			TabItem sourceTab = (TabItem)e.Data.GetData(typeof(TabItem));
+			TabItem targetTab = (TabItem)e.Source;
+
+			if (targetTab != sourceTab)
+			{
+				int targetIdx = tabControl.Items.IndexOf(targetTab);
+
+				tabControl.Items.Remove(sourceTab);
+				tabControl.Items.Insert(targetIdx, sourceTab);
+			}
+
+			tabControl.SelectedItem = selectedTab;
 		}
 	}
 
