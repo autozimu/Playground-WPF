@@ -155,7 +155,7 @@
 				</Setter.Value>
 			</Setter>
 			
-			<!-- FIXME. shall only set drag/drop on tabpanel. -->
+			<!-- TODO: shall only set drag/drop on tabpanel? -->
 			<Setter Property="AllowDrop"
 					Value="True" />
 			<EventSetter Event="PreviewMouseLeftButtonDown"
@@ -185,20 +185,6 @@
 									 Width="70" />
 				</StackPanel>
 			</TabItem>
-			<TabItem>
-				<local:MyButton>
-					<TextBlock>YO HAHA</TextBlock>
-				</local:MyButton>
-			</TabItem>
-			
-			<!--<TabControl.ContextMenu>
-				<ContextMenu Name="contextMenu">
-					<MenuItem Name="menuItemTab1"
-							  Header="Tab 1"></MenuItem>
-					<MenuItem Name="menuItemTab2"
-							  Header="Tab 2"></MenuItem>
-				</ContextMenu>
-			</TabControl.ContextMenu>-->
 		</TabControl>
 	</Border>
 </Window>
