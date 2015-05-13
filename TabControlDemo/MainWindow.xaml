@@ -26,7 +26,8 @@
 	<Window.InputBindings>
 		<KeyBinding Key="W"
 					Modifiers="Control"
-					Command="{x:Static local:TabCommands.Close}" />
+					Command="{x:Static local:TabCommands.Close}"
+					CommandTarget="{Binding SelectedItem, ElementName=tabControl}"/>
 	</Window.InputBindings>
 
 	<Window.Resources>

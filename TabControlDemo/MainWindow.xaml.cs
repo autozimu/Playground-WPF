@@ -34,15 +34,8 @@ namespace TabControlDemo
 
 		private void TabClose(object sender, ExecutedRoutedEventArgs e)
 		{
-			if (e.OriginalSource is TabItem)
-			{
-				TabItem tab = (TabItem)e.OriginalSource;
-				tabControl.Items.Remove(tab);
-			}
-			else if (e.OriginalSource is MainWindow)
-			{
-				tabControl.Items.Remove(tabControl.SelectedItem);
-			}
+			TabItem tab = (TabItem)e.OriginalSource;
+			tabControl.Items.Remove(tab);
 		}
 
 		private void TabCloseAll(object sender, ExecutedRoutedEventArgs e)
