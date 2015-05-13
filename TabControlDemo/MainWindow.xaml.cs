@@ -19,7 +19,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Markup;
 
-namespace PlayGroundWPF
+namespace TabControlDemo
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
