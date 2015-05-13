@@ -96,7 +96,9 @@ namespace TabControlDemo
 
 		private void TabNewButton_Click(object sender, RoutedEventArgs e)
 		{
-			((Button)sender).ContextMenu.IsOpen = true;
+			Button btn = (Button)sender;
+			btn.ContextMenu.PlacementTarget = btn;
+			btn.ContextMenu.IsOpen = true;
 		}
 
 		Point _dragStartingPoint;

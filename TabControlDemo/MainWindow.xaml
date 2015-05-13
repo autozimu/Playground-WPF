@@ -45,7 +45,19 @@
 
 		<Thickness x:Key="Tab_Border_Thickness">4</Thickness>
 		<Thickness x:Key="Tab_Border_Thickness_Selected">4, 4, 4, 0</Thickness>
-		
+
+		<!-- Menu items to create new tab -->
+		<CompositeCollection x:Key="TabNewMenuItems">
+			<MenuItem Header="Tab 1"
+					  Command="{x:Static local:TabCommands.Tab1}"
+				  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+			</MenuItem>
+			<MenuItem Header="Tab 2"
+					  Command="{x:Static local:TabCommands.Tab2}"
+					  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+			</MenuItem>
+		</CompositeCollection>
+
 		<Style TargetType="TabControl">
 			<Setter Property="Template">
 				<Setter.Value>
@@ -64,15 +76,7 @@
 													 HorizontalAlignment="Center"
 													 VerticalAlignment="Center"/>
 									<Button.ContextMenu>
-										<ContextMenu>
-											<MenuItem Header="Tab 1"
-													  Command="{x:Static local:TabCommands.Tab1}"
-													  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-											</MenuItem>
-											<MenuItem Header="Tab 2"
-													  Command="{x:Static local:TabCommands.Tab2}"
-													  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-											</MenuItem>
+										<ContextMenu ItemsSource="{StaticResource ResourceKey=TabNewMenuItems}">
 										</ContextMenu>
 									</Button.ContextMenu>
 								</Button>
@@ -113,27 +117,24 @@
 								</Button>
 								<StackPanel.ContextMenu>
 									<ContextMenu>
-										<MenuItem Header="Tab 1"
-												  Command="{x:Static local:TabCommands.Tab1}"
-												  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-										</MenuItem>
-										<MenuItem Header="Tab 2"
-												  Command="{x:Static local:TabCommands.Tab2}"
-												  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-										</MenuItem>
-										<Separator />
-										<MenuItem Header="Close"
-												  Command="{x:Static local:TabCommands.Close}"
-												  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-										</MenuItem>
-										<MenuItem Header="Close All"
-												  Command="{x:Static local:TabCommands.CloseAll}"
-												  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-										</MenuItem>
-										<MenuItem Header="Close All Others"
-												  Command="{x:Static local:TabCommands.CloseAllOthers}"
-												  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-										</MenuItem>
+										<ContextMenu.ItemsSource>
+											<CompositeCollection>
+												<CollectionContainer Collection="{StaticResource ResourceKey=TabNewMenuItems}" />
+												<Separator />
+												<MenuItem Header="Close"
+														  Command="{x:Static local:TabCommands.Close}"
+														  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+												</MenuItem>
+												<MenuItem Header="Close All"
+														  Command="{x:Static local:TabCommands.CloseAll}"
+														  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+												</MenuItem>
+												<MenuItem Header="Close All Others"
+														  Command="{x:Static local:TabCommands.CloseAllOthers}"
+														  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+												</MenuItem>
+											</CompositeCollection>
+										</ContextMenu.ItemsSource>
 									</ContextMenu>
 								</StackPanel.ContextMenu>
 							</StackPanel>
