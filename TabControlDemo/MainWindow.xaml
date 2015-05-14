@@ -47,7 +47,8 @@
 		<Thickness x:Key="Tab_Border_Thickness_Selected">4, 4, 4, 0</Thickness>
 
 		<!-- Menu items to create new tab -->
-		<CompositeCollection x:Key="TabNewMenuItems">
+		<CompositeCollection x:Key="TabNewMenuItems"
+                             x:Shared="false">
 			<MenuItem Header="Tab 1"
 					  Command="{x:Static local:TabCommands.Tab1}"
 				  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
