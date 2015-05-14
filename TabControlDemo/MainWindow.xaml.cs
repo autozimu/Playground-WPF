@@ -57,8 +57,6 @@ namespace TabControlDemo
 
 		private void TabOpen(object sender, ExecutedRoutedEventArgs e)
 		{
-			TabItem tab;
-
 			Random r = new Random();
 			if (r.Next() % 2 == 0)
 			{
