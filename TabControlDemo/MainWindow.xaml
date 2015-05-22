@@ -125,15 +125,15 @@
 												<Separator />
 												<MenuItem Header="Close"
 														  Command="{x:Static local:TabCommands.Close}"
-														  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+														  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
 												</MenuItem>
 												<MenuItem Header="Close All"
 														  Command="{x:Static local:TabCommands.CloseAll}"
-														  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+														  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
 												</MenuItem>
 												<MenuItem Header="Close All Others"
 														  Command="{x:Static local:TabCommands.CloseAllOthers}"
-														  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+														  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
 												</MenuItem>
 											</CompositeCollection>
 										</ContextMenu.ItemsSource>
