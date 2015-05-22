@@ -7,7 +7,8 @@
 		Title="MainWindow"
 		Height="300"
 		Width="300"
-		WindowStartupLocation="CenterScreen">
+		WindowStartupLocation="CenterScreen"
+		FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}, Mode=OneTime}">
 
 	<Window.CommandBindings>
 		<CommandBinding Command="{x:Static local:TabCommands.Close}"
@@ -51,7 +52,7 @@
                              x:Shared="false">
 			<MenuItem Header="Tab 1"
 					  Command="{x:Static local:TabCommands.Tab1}"
-				  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+					  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
 			</MenuItem>
 			<MenuItem Header="Tab 2"
 					  Command="{x:Static local:TabCommands.Tab2}"
