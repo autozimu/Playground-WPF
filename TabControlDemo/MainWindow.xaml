@@ -52,11 +52,11 @@
                              x:Shared="false">
 			<MenuItem Header="Tab 1"
 					  Command="{x:Static local:TabCommands.Tab1}"
-					  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+					  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
 			</MenuItem>
 			<MenuItem Header="Tab 2"
 					  Command="{x:Static local:TabCommands.Tab2}"
-					  CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+					  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
 			</MenuItem>
 		</CompositeCollection>
 
