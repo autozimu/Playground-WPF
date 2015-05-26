@@ -57,6 +57,11 @@
 					  Command="{x:Static local:TabCommands.Tab2}">
 			</MenuItem>
 		</CompositeCollection>
+        
+        <Style TargetType="MenuItem">
+            <Setter Property="CommandTarget"
+                    Value="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
+        </Style>
 
 		<Style TargetType="TabControl">
 			<Setter Property="Template">
@@ -75,12 +80,6 @@
 													 Height="7" />
 									<Button.ContextMenu>
 										<ContextMenu ItemsSource="{StaticResource ResourceKey=TabNewMenuItems}">
-											<ContextMenu.Resources>
-												<Style TargetType="MenuItem">
-													<Setter Property="CommandTarget"
-															Value="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-												</Style>
-											</ContextMenu.Resources>
 										</ContextMenu>
 									</Button.ContextMenu>
 								</Button>
@@ -136,12 +135,6 @@
 												</MenuItem>
 											</CompositeCollection>
 										</ContextMenu.ItemsSource>
-										<ContextMenu.Resources>
-											<Style TargetType="MenuItem">
-												<Setter Property="CommandTarget"
-														Value="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
-											</Style>
-										</ContextMenu.Resources>
 									</ContextMenu>
 								</StackPanel.ContextMenu>
 							</StackPanel>
