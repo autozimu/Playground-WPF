@@ -51,12 +51,10 @@
 		<CompositeCollection x:Key="TabNewMenuItems"
                              x:Shared="false">
 			<MenuItem Header="Tab 1"
-					  Command="{x:Static local:TabCommands.Tab1}"
-					  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+					  Command="{x:Static local:TabCommands.Tab1}">
 			</MenuItem>
 			<MenuItem Header="Tab 2"
-					  Command="{x:Static local:TabCommands.Tab2}"
-					  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+					  Command="{x:Static local:TabCommands.Tab2}">
 			</MenuItem>
 		</CompositeCollection>
 
@@ -74,11 +72,15 @@
 								<Button VerticalAlignment="Center"
 										Click="TabNewButton_Click">
 									<fa:ImageAwesome Icon="Plus" 
-													 Height="7"
-													 HorizontalAlignment="Center"
-													 VerticalAlignment="Center"/>
+													 Height="7" />
 									<Button.ContextMenu>
 										<ContextMenu ItemsSource="{StaticResource ResourceKey=TabNewMenuItems}">
+											<ContextMenu.Resources>
+												<Style TargetType="MenuItem">
+													<Setter Property="CommandTarget"
+															Value="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
+												</Style>
+											</ContextMenu.Resources>
 										</ContextMenu>
 									</Button.ContextMenu>
 								</Button>
@@ -124,19 +126,22 @@
 												<CollectionContainer Collection="{StaticResource ResourceKey=TabNewMenuItems}" />
 												<Separator />
 												<MenuItem Header="Close"
-														  Command="{x:Static local:TabCommands.Close}"
-														  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+														  Command="{x:Static local:TabCommands.Close}">
 												</MenuItem>
 												<MenuItem Header="Close All"
-														  Command="{x:Static local:TabCommands.CloseAll}"
-														  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+														  Command="{x:Static local:TabCommands.CloseAll}">
 												</MenuItem>
 												<MenuItem Header="Close All Others"
-														  Command="{x:Static local:TabCommands.CloseAllOthers}"
-														  CommandTarget="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}">
+														  Command="{x:Static local:TabCommands.CloseAllOthers}">
 												</MenuItem>
 											</CompositeCollection>
 										</ContextMenu.ItemsSource>
+										<ContextMenu.Resources>
+											<Style TargetType="MenuItem">
+												<Setter Property="CommandTarget"
+														Value="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
+											</Style>
+										</ContextMenu.Resources>
 									</ContextMenu>
 								</StackPanel.ContextMenu>
 							</StackPanel>
