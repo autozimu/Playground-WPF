@@ -157,7 +157,6 @@
 				</Setter.Value>
 			</Setter>
 			
-			<!-- TODO: shall only set drag/drop on tabpanel? -->
 			<Setter Property="AllowDrop"
 					Value="True" />
 			<EventSetter Event="PreviewMouseLeftButtonDown"

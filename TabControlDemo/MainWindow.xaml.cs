@@ -99,52 +99,47 @@ namespace TabControlDemo
 			btn.ContextMenu.IsOpen = true;
 		}
 
+		bool _isDragging = false;
 		Point _dragStartingPoint;
+		TabItem _draggedTab;
+
 		private void TabItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			_isDragging = false;
 			_dragStartingPoint = e.GetPosition(null);
+			_draggedTab = (TabItem)sender;
 		}
 
-		bool _isDragging = false;
 		private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
 		{
-			TabItem tab = (TabItem)sender;
+			if (_isDragging || e.LeftButton != MouseButtonState.Pressed) return;
 
-			if (e.LeftButton == MouseButtonState.Pressed && !_isDragging)
+			Point position = e.GetPosition(null);
+			if (Math.Abs(position.X - _dragStartingPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
+				Math.Abs(position.Y - _dragStartingPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
 			{
-				Point position = e.GetPosition(null);
-				if (Math.Abs(position.X - _dragStartingPoint.X) > SystemParameters.MinimumHorizontalDragDistance ||
-					Math.Abs(position.Y - _dragStartingPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
-				{
-					_isDragging = true;
-
-					DragDrop.DoDragDrop(tab, tab, DragDropEffects.All);
-
-					_isDragging = false;
-				}
+				_isDragging = true;
+				DragDrop.DoDragDrop(_draggedTab, _draggedTab, DragDropEffects.All);
 			}
 		}
 
 		private void TabItem_Drop(object sender, DragEventArgs e)
 		{
-			// Keep selected tab to restore later.
-			// Otherwise the tab control will use selected index to select content.
-			TabItem selectedTab = (TabItem)tabControl.SelectedItem;
-
 			TabItem targetTab = sender as TabItem;
 			if (targetTab == null) return;
-			if (e.Data.GetDataPresent(typeof(TabItem)) == false) return;
+			if (!e.Data.GetDataPresent(typeof(TabItem))) return;
 			TabItem sourceTab = (TabItem)e.Data.GetData(typeof(TabItem));
 
-			if (targetTab != sourceTab)
-			{
-				int targetIdx = tabControl.Items.IndexOf(targetTab);
+			if (targetTab == sourceTab) return;
 
+			int targetIdx = tabControl.Items.IndexOf(targetTab);
+			using (Dispatcher.DisableProcessing())
+			{
 				tabControl.Items.Remove(sourceTab);
 				tabControl.Items.Insert(targetIdx, sourceTab);
+				tabControl.SelectedItem = sourceTab;
 			}
 
-			tabControl.SelectedItem = selectedTab;
 		}
 	}
 
