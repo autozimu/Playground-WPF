@@ -1,191 +1,227 @@
 ﻿<Window x:Class="TabControlDemo.MainWindow"
-		x:Name="mainWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:local="clr-namespace:TabControlDemo"
-		xmlns:fa="http://schemas.fontawesome.io/icons/"
-		Title="MainWindow"
-		Height="300"
-		Width="300"
-		WindowStartupLocation="CenterScreen"
-		FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}, Mode=OneTime}">
+        x:Name="mainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TabControlDemo"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        Title="MainWindow"
+        Height="300"
+        Width="300"
+        WindowStartupLocation="CenterScreen"
+        FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}, Mode=OneTime}">
 
-	<Window.CommandBindings>
-		<CommandBinding Command="{x:Static local:TabCommands.Close}"
-						Executed="TabClose" />
-		<CommandBinding Command="{x:Static local:TabCommands.CloseAll}"
-						Executed="TabCloseAll" />
-		<CommandBinding Command="{x:Static local:TabCommands.CloseAllOthers}"
-						Executed="TabCloseAllOthers" />
-		<CommandBinding Command="{x:Static local:TabCommands.Open}"
-						Executed="TabOpen" />
-		<CommandBinding Command="{x:Static local:TabCommands.Tab1}"
-						Executed="TabOpenTab1" />
-		<CommandBinding Command="{x:Static local:TabCommands.Tab2}"
-						Executed="TabOpenTab2" />
-	</Window.CommandBindings>
-	<Window.InputBindings>
-		<KeyBinding Key="W"
-					Modifiers="Control"
-					Command="{x:Static local:TabCommands.Close}"
-					CommandTarget="{Binding SelectedItem, ElementName=tabControl}"/>
-	</Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:TabCommands.Close}"
+                        Executed="TabClose" />
+        <CommandBinding Command="{x:Static local:TabCommands.CloseAll}"
+                        Executed="TabCloseAll" />
+        <CommandBinding Command="{x:Static local:TabCommands.CloseAllOthers}"
+                        Executed="TabCloseAllOthers" />
+        <CommandBinding Command="{x:Static local:TabCommands.Open}"
+                        Executed="TabOpen" />
+        <CommandBinding Command="{x:Static local:TabCommands.Tab1}"
+                        Executed="TabOpenTab1" />
+        <CommandBinding Command="{x:Static local:TabCommands.Tab2}"
+                        Executed="TabOpenTab2" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="W"
+                    Modifiers="Control"
+                    Command="{x:Static local:TabCommands.Close}"
+                    CommandTarget="{Binding SelectedItem, ElementName=tabControl}"/>
+    </Window.InputBindings>
 
-	<Window.Resources>
-		<!-- Reset default button style. -->
-		<Style TargetType="Button">
-			<Setter Property="Background"
-					Value="Transparent" />
-			<Setter Property="Foreground"
-					Value="White" />
-			<Setter Property="BorderBrush"
-					Value="Transparent" />
-			<Setter Property="BorderThickness"
-					Value="0" />
-		</Style>
+    <Window.Resources>
+        <!-- Reset default button style. -->
+        <Style TargetType="Button">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+            <Setter Property="BorderThickness"
+                    Value="0" />
+        </Style>
 
-		<Thickness x:Key="Tab_Border_Thickness">4</Thickness>
-		<Thickness x:Key="Tab_Border_Thickness_Selected">4, 4, 4, 0</Thickness>
+        <Thickness x:Key="Tab_Border_Thickness">4</Thickness>
+        <Thickness x:Key="Tab_Border_Thickness_Selected">4, 4, 4, 0</Thickness>
 
-		<!-- Menu items to create new tab -->
-		<CompositeCollection x:Key="TabNewMenuItems"
+        <!-- Menu items to create new tab -->
+        <CompositeCollection x:Key="TabNewMenuItems"
                              x:Shared="false">
-			<MenuItem Header="Tab 1"
-					  Command="{x:Static local:TabCommands.Tab1}">
-			</MenuItem>
-			<MenuItem Header="Tab 2"
-					  Command="{x:Static local:TabCommands.Tab2}">
-			</MenuItem>
-		</CompositeCollection>
+            <MenuItem Header="Tab 1"
+                      Command="{x:Static local:TabCommands.Tab1}">
+            </MenuItem>
+            <MenuItem Header="Tab 2"
+                      Command="{x:Static local:TabCommands.Tab2}">
+            </MenuItem>
+        </CompositeCollection>
         
         <Style TargetType="MenuItem">
             <Setter Property="CommandTarget"
                     Value="{Binding PlacementTarget.TemplatedParent, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}}" />
         </Style>
 
-		<Style TargetType="TabControl">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="TabControl">
-						<DockPanel>
-							<!-- TabPanel -->
-							<StackPanel DockPanel.Dock="Top"
-										Orientation="Horizontal"
-										VerticalAlignment="Center">
-								<TabPanel IsItemsHost="True" />
-								<!-- New tab button -->
-								<Button VerticalAlignment="Center"
-										Click="TabNewButton_Click">
-									<fa:ImageAwesome Icon="Plus" 
-													 Height="7" />
-									<Button.ContextMenu>
-										<ContextMenu ItemsSource="{StaticResource ResourceKey=TabNewMenuItems}">
-										</ContextMenu>
-									</Button.ContextMenu>
-								</Button>
-							</StackPanel>
+        <Style x:Key="TabHeaderScrollViewer"
+               TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-							<!-- Content -->
-							<ContentPresenter ContentSource="SelectedContent" />
-						</DockPanel>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+                            <ScrollContentPresenter Name="PART_ScrollContentPresenter"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0" />
 
-		<Style TargetType="TabItem">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="TabItem">
-						<Border Name="tabItemHeaderBorder"
-							BorderThickness="{StaticResource Tab_Border_Thickness}"
-								BorderBrush="DarkGray">
-							<StackPanel Orientation="Horizontal">
-								<Ellipse Fill="DarkGray"
-										 Width="10"
-										 Height="10"
-										 VerticalAlignment="Center" />
-								<TextBlock FontWeight="Bold"
-										   FontSize="15">
-									<ContentPresenter ContentSource="Header"
-													  VerticalAlignment="Center" />
-								</TextBlock>
-								<Button VerticalAlignment="Center"
-										Command="{x:Static local:TabCommands.Close}"
-										CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
-									<fa:ImageAwesome Icon="Times"
-													 Height="7"
-													 VerticalAlignment="Center"
-													 HorizontalAlignment="Center" />
-								</Button>
-								<StackPanel.ContextMenu>
-									<ContextMenu>
-										<ContextMenu.ItemsSource>
-											<CompositeCollection>
-												<CollectionContainer Collection="{StaticResource ResourceKey=TabNewMenuItems}" />
-												<Separator />
-												<MenuItem Header="Close"
-														  Command="{x:Static local:TabCommands.Close}">
-												</MenuItem>
-												<MenuItem Header="Close All"
-														  Command="{x:Static local:TabCommands.CloseAll}">
-												</MenuItem>
-												<MenuItem Header="Close All Others"
-														  Command="{x:Static local:TabCommands.CloseAllOthers}">
-												</MenuItem>
-											</CompositeCollection>
-										</ContextMenu.ItemsSource>
-									</ContextMenu>
-								</StackPanel.ContextMenu>
-							</StackPanel>
-						</Border>
+                            <ScrollBar Name="PART_HorizontalScrollBar"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       Orientation="Horizontal"
+                                       Margin="10, 0, 0, 0"
+                                       Width="30"
+                                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}">
+                            </ScrollBar>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsSelected"
-									 Value="True">
-								<Setter TargetName="tabItemHeaderBorder"
-										Property="BorderThickness"
-										Value="{StaticResource ResourceKey=Tab_Border_Thickness_Selected}" />
-							</Trigger>
-							<Trigger Property="IsSelected"
-									 Value="False">
-								<Setter Property="BorderBrush"
-										Value="LightGray" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-			
-			<Setter Property="AllowDrop"
-					Value="True" />
-			<EventSetter Event="PreviewMouseLeftButtonDown"
-						 Handler="TabItem_PreviewMouseLeftButtonDown" />
-			<EventSetter Event="PreviewMouseMove"
-						 Handler="TabItem_PreviewMouseMove" />
-			<EventSetter Event="Drop"
-						 Handler="TabItem_Drop" />
-		</Style>
-	</Window.Resources>
+        <Style TargetType="TabControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <DockPanel>
+                            <!-- TabPanel -->
+                            <ScrollViewer DockPanel.Dock="Top"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          Style="{StaticResource TabHeaderScrollViewer}">
+                                <StackPanel Orientation="Horizontal"
+                                            VerticalAlignment="Center">
+                                    <TabPanel IsItemsHost="True" />
+                                    <!-- New tab button -->
+                                    <Button VerticalAlignment="Center"
+                                            Click="TabNewButton_Click">
+                                        <fa:ImageAwesome Icon="Plus"
+                                                         Height="7" />
+                                        <Button.ContextMenu>
+                                            <ContextMenu ItemsSource="{StaticResource ResourceKey=TabNewMenuItems}">
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
+                                    </Button>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <!-- Content -->
+                            <ContentPresenter ContentSource="SelectedContent" />
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="tabItemHeaderBorder"
+                            BorderThickness="{StaticResource Tab_Border_Thickness}"
+                                BorderBrush="DarkGray">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Fill="DarkGray"
+                                         Width="10"
+                                         Height="10"
+                                         VerticalAlignment="Center" />
+                                <TextBlock FontWeight="Bold"
+                                           FontSize="15">
+                                    <ContentPresenter ContentSource="Header"
+                                                      VerticalAlignment="Center" />
+                                </TextBlock>
+                                <Button VerticalAlignment="Center"
+                                        Command="{x:Static local:TabCommands.Close}"
+                                        CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                                    <fa:ImageAwesome Icon="Times"
+                                                     Height="7"
+                                                     VerticalAlignment="Center"
+                                                     HorizontalAlignment="Center" />
+                                </Button>
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <ContextMenu.ItemsSource>
+                                            <CompositeCollection>
+                                                <CollectionContainer Collection="{StaticResource ResourceKey=TabNewMenuItems}" />
+                                                <Separator />
+                                                <MenuItem Header="Close"
+                                                          Command="{x:Static local:TabCommands.Close}">
+                                                </MenuItem>
+                                                <MenuItem Header="Close All"
+                                                          Command="{x:Static local:TabCommands.CloseAll}">
+                                                </MenuItem>
+                                                <MenuItem Header="Close All Others"
+                                                          Command="{x:Static local:TabCommands.CloseAllOthers}">
+                                                </MenuItem>
+                                            </CompositeCollection>
+                                        </ContextMenu.ItemsSource>
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                            </StackPanel>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="tabItemHeaderBorder"
+                                        Property="BorderThickness"
+                                        Value="{StaticResource ResourceKey=Tab_Border_Thickness_Selected}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="False">
+                                <Setter Property="BorderBrush"
+                                        Value="LightGray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <Setter Property="AllowDrop"
+                    Value="True" />
+            <EventSetter Event="PreviewMouseLeftButtonDown"
+                         Handler="TabItem_PreviewMouseLeftButtonDown" />
+            <EventSetter Event="PreviewMouseMove"
+                         Handler="TabItem_PreviewMouseMove" />
+            <EventSetter Event="Drop"
+                         Handler="TabItem_Drop" />
+        </Style>
+    </Window.Resources>
 
 
-	<Border>
-		<TabControl Name="tabControl">
-			<TabItem Name="tab1"
-					 Header="TextBox">
-				<StackPanel VerticalAlignment="Center"
-							HorizontalAlignment="Center">
-					<TextBlock Text="Insert here:" />
-					<TextBox  Width="100" />
-				</StackPanel>
-			</TabItem>
-			<TabItem Name="tab2"
-					 Header="Icon">
-				<StackPanel VerticalAlignment="Center">
-					<fa:ImageAwesome Icon="Heartbeat"
-									 Width="70" />
-				</StackPanel>
-			</TabItem>
-		</TabControl>
-	</Border>
+    <Border>
+        <TabControl Name="tabControl">
+            <TabItem Name="tab1"
+                     Header="TextBox">
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Insert here:" />
+                    <TextBox  Width="100" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Name="tab2"
+                     Header="Icon">
+                <StackPanel VerticalAlignment="Center">
+                    <fa:ImageAwesome Icon="Heartbeat"
+                                     Width="70" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Border>
 </Window>
